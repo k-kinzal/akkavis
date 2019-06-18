@@ -1,0 +1,90 @@
+apiVersion: "apps/v1beta2"
+kind: Deployment
+metadata:
+  name: akkavis
+  labels:
+    app: akkavis
+    #I think we might be using this somewhere, TODO: remove
+spec:
+  replicas: 3 #Remember to update your REQUIRED_CONTACT_POINT_NR value if you change your starting replicas
+  selector:
+    matchLabels:
+      app: akkavis
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  minReadySeconds: 10 # they will have joined the cluster at "ready", give shards a chance to rebalance
+  template:
+    metadata:
+      labels:
+        app: akkavis
+      annotations:
+        "prometheus.io/scrape": "true"
+        "prometheus.io/scheme": http
+        "prometheus.io/path": "/metrics"
+        "prometheus.io/port": "9001"
+    spec:
+      containers:
+      - name: akkavis
+        imagePullPolicy: IfNotPresent
+        image: "akkavis:latest"
+        env:
+          #TODO: What other envs do I need in application.conf?
+          - name: JAVA_OPTS
+            value: "-Xms384m -Xmx384m -Dconfig.resource=k8.conf"
+          - name: REQUIRED_CONTACT_POINT_NR
+            value: "3"
+          - name: AKKA_CLUSTER_BOOTSTRAP_SERVICE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: "metadata.labels['app']"
+        resources:
+          limits:
+            memory: 640Mi
+          requests:
+            cpu: 1.0
+            memory: 512Mi
+        ports:
+          - name: remoting
+            containerPort: 2551
+            protocol: TCP
+          - name: management
+            containerPort: 8558
+            protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: "/ready"
+            port: management
+          periodSeconds: 10
+          failureThreshold: 12
+          initialDelaySeconds: 20
+        livenessProbe:
+          httpGet:
+            path: "/alive"
+            port: management
+          periodSeconds: 10
+          failureThreshold: 3
+          initialDelaySeconds: 50
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    appName: akkavis
+  name: akkavis
+spec:
+  selector:
+    app: akkavis
+  ports:
+  - name: "http"
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+#For debugging / verfiication
+  - name: "management"
+    port: 8558
+    protocol: TCP
+    targetPort: 8558

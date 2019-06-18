@@ -1,0 +1,5 @@
+[0m[[0m[33mwarn[0m] [0m[0m/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/akka/HttpServerActor.scala:122:18: match may not be exhaustive.[0m
+[0m[[0m[33mwarn[0m] [0m[0mIt would fail on the following inputs: Streamed(_), Strict(_)[0m
+[0m[[0m[33mwarn[0m] [0m[0m      .mapConcat {[0m
+[0m[[0m[33mwarn[0m] [0m[0m                 ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

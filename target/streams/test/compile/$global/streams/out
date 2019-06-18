@@ -1,0 +1,7 @@
+[0m[[0m[33mwarn[0m] [0m[0m/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/test/scala/sample/MainActor.scala:23:23: Reference to uninitialized value extractEntityId[0m
+[0m[[0m[33mwarn[0m] [0m[0m    extractEntityId = extractEntityId,[0m
+[0m[[0m[33mwarn[0m] [0m[0m                      ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/test/scala/sample/MainActor.scala:24:22: Reference to uninitialized value extractShardId[0m
+[0m[[0m[33mwarn[0m] [0m[0m    extractShardId = extractShardId)[0m
+[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m

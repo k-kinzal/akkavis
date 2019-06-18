@@ -1,0 +1,6 @@
+[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/logback.xml,/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/scala-2.12/classes/logback.xml)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/application.conf,/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/scala-2.12/classes/application.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/d3,/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/scala-2.12/classes/d3)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/k8.conf,/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/scala-2.12/classes/k8.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/monitor.html,/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/scala-2.12/classes/monitor.html)[0m

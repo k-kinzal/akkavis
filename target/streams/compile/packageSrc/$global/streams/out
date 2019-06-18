@@ -1,0 +1,25 @@
+[0m[[0m[0minfo[0m] [0m[0mPackaging /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/scala-2.12/akka-cluster-sharding-visualizer_2.12-0.1-sources.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	k8.conf[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/k8.conf[0m
+[0m[[0m[0mdebug[0m] [0m[0m	sample/Runner.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/sample/Runner.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	sample/ClusterRunner.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/sample/ClusterRunner.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	d3[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/d3[0m
+[0m[[0m[0mdebug[0m] [0m[0m	akka/TreeModelActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/akka/TreeModelActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	application.conf[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/application.conf[0m
+[0m[[0m[0mdebug[0m] [0m[0m	logback.xml[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/logback.xml[0m
+[0m[[0m[0mdebug[0m] [0m[0m	monitor.html[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/resources/monitor.html[0m
+[0m[[0m[0mdebug[0m] [0m[0m	sample/MainActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/sample/MainActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	akka/HttpServerActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/akka/HttpServerActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	akka/ClusterListenerActor.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/src/main/scala/akka/ClusterListenerActor.scala[0m
+[0m[[0m[0minfo[0m] [0m[0mDone packaging.[0m

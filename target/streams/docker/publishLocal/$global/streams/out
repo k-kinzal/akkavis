@@ -1,0 +1,59 @@
+[0m[[0m[0mdebug[0m] [0m[0mExecuting Native docker build --force-rm -t akkavis:0.1 -t akkavis:latest .[0m
+[0m[[0m[0mdebug[0m] [0m[0mWorking directory /Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/target/docker/stage[0m
+[0m[[0m[0minfo[0m] [0m[0mSending build context to Docker daemon  49.92MB[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 1/16 : FROM registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as stage0[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> b4b953ca8f5b[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 2/16 : WORKDIR /opt/docker[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Using cache[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 6a3086bdac35[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 3/16 : COPY opt /opt[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 7d58341c9e43[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 4/16 : USER root[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in 2df19be091db[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container 2df19be091db[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 513b0f8e1f9f[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 5/16 : RUN ["chmod", "-R", "u=rX,g=rX", "/opt/docker"][0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in 88b53573fefe[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container 88b53573fefe[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 7d61007173bb[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 6/16 : RUN ["chmod", "u+x,g+x", "/opt/docker/bin/akka-cluster-sharding-visualizer"][0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in 37ae492ed464[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container 37ae492ed464[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 5ecd186bc451[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 7/16 : RUN ["chmod", "u+x,g+x", "/opt/docker/bin/runner"][0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in c6d604f16be7[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container c6d604f16be7[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 7ee3bcb71faa[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 8/16 : FROM registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> b4b953ca8f5b[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 9/16 : USER root[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Using cache[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 740b73206efa[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 10/16 : RUN id -u demiourgos728 2> /dev/null || (( getent group 0 || groupadd -g 0 root ) && useradd --system --create-home --uid 1001 --gid 0 demiourgos728 )[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Using cache[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 55e625bfea57[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 11/16 : WORKDIR /opt/docker[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Using cache[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 30eb1908443c[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 12/16 : COPY --from=stage0 --chown=demiourgos728:root /opt/docker /opt/docker[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> f03cd8d87cc5[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 13/16 : EXPOSE 2551 8558 8080[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in 27b2eef62a75[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container 27b2eef62a75[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 66d5c11ff3b6[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 14/16 : USER 1001:0[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in 7d4fba2db5a8[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container 7d4fba2db5a8[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 240823124c83[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 15/16 : ENTRYPOINT ["/opt/docker/bin/akka-cluster-sharding-visualizer"][0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in 1c00ec7e2c4f[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container 1c00ec7e2c4f[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> 0dee2a0bbc94[0m
+[0m[[0m[0minfo[0m] [0m[0mStep 16/16 : CMD [][0m
+[0m[[0m[0minfo[0m] [0m[0m ---> Running in e3f127fff9a4[0m
+[0m[[0m[0minfo[0m] [0m[0mRemoving intermediate container e3f127fff9a4[0m
+[0m[[0m[0minfo[0m] [0m[0m ---> f8bcbbdd7917[0m
+[0m[[0m[0minfo[0m] [0m[0mSuccessfully built f8bcbbdd7917[0m
+[0m[[0m[0minfo[0m] [0m[0mSuccessfully tagged akkavis:0.1[0m
+[0m[[0m[0minfo[0m] [0m[0mSuccessfully tagged akkavis:latest[0m
+[0m[[0m[0minfo[0m] [0m[0mBuilt image akkavis with tags [0.1, latest][0m

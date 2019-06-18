@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6e63d63c-bc38-4cad-8485-cabd2ae223d2" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/project/project/target/" />
+    <ignored path="$PROJECT_DIR$/project/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="SBT">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="akka-cluster-sharding-visualizer" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="akka-cluster-sharding-visualizer" type="f1a62948:ProjectNode" />
+                <item name="akka-cluster-sharding-visualizer" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="akka-cluster-sharding-visualizer" type="f1a62948:ProjectNode" />
+                <item name="akka-cluster-sharding-visualizer" type="2d1252cf:ModuleNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="393">
+              <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/k8.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sample/ClusterRunner.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="346">
+              <caret line="27" column="67" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+              <folding>
+                <element signature="e#16#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sample/Runner.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="111" selection-start-line="18" selection-start-column="111" selection-end-line="18" selection-end-column="111" />
+              <folding>
+                <element signature="e#16#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/akka/HttpServerActor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="124" column="17" lean-forward="true" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="17" />
+              <folding>
+                <element signature="e#14#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/akka/ClusterListenerActor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sample/MainActor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="24" column="4" lean-forward="true" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="98" />
+              <folding>
+                <element signature="e#16#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/monitor.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="291">
+              <caret line="280" column="20" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/akka/TreeModelActor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="319">
+              <caret line="103" column="47" selection-start-line="103" selection-start-column="47" selection-end-line="103" selection-end-column="47" />
+              <folding>
+                <element signature="e#14#70#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="165">
+                <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Scala Object" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>min</find>
+      <find>Runner.httpServer</find>
+      <find>datahub</find>
+      <find>file cont</find>
+      <find>transition</find>
+      <find>nodeEnter</find>
+      <find>circleColor</find>
+      <find>exit</find>
+      <find>update</find>
+      <find>root</find>
+      <find>.on</find>
+      <find>entity</find>
+      <find>on</find>
+      <find>clickCircle</find>
+      <find>log.info</find>
+    </findStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/multi-jvm/scala/akka.clustervis/Sample.scala" />
+        <option value="$PROJECT_DIR$/src/multi-jvm/scala/akka.clustervis/StatsSampleSpec.scala" />
+        <option value="$PROJECT_DIR$/src/multi-jvm/scala/sample/Sample.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sample/ClusterListenerActor.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/sample/ShardActor.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/sample/Counter.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sample/HttpServerActor.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sample/TreeModelActor.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/sample/MainActor.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/sample/Runner.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/akka/ClusterListenerActor.scala" />
+        <option value="$PROJECT_DIR$/scriptFile.scala" />
+        <option value="$PROJECT_DIR$/rbac.yaml" />
+        <option value="$PROJECT_DIR$/local.yaml" />
+        <option value="$PROJECT_DIR$/project/plugins.sbt" />
+        <option value="$PROJECT_DIR$/src/test/scala/sample/Test.scala" />
+        <option value="$PROJECT_DIR$/src/main/resources/k8.conf" />
+        <option value="$PROJECT_DIR$/build.sbt" />
+        <option value="$PROJECT_DIR$/src/main/resources/d3/d3.v5.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/monitor2.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.conf" />
+        <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/src/main/scala/sample/Runner.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sample/ClusterRunner.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sample/MainActor.scala" />
+        <option value="$PROJECT_DIR$/src/main/resources/monitor.html" />
+        <option value="$PROJECT_DIR$/src/main/scala/akka/HttpServerActor.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/akka/TreeModelActor.scala" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="68" />
+    <option name="y" value="43" />
+    <option name="width" value="1577" />
+    <option name="height" value="866" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="akka" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="akka-cluster-sharding-visualizer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="akka-cluster-sharding-visualizer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="sample" />
+      <recent name="akka" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="sample" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/multi-jvm/scala" />
+      <recent name="$PROJECT_DIR$/src/multi-jvm/akka.clustervis" />
+      <recent name="$PROJECT_DIR$/src/multi-jvm" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Runner">
+    <configuration name="Runner" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="sample.Runner" />
+      <module name="akka-cluster-sharding-visualizer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="akka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SampleMultiJvmNode2" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="akka.clustervis.SampleMultiJvmNode2" />
+      <module name="akka-cluster-sharding-visualizer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="akka.clustervis.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryServerSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+      <module name="akka-cluster-sharding-visualizer" />
+      <setting name="path" value="sample.InventoryServerSpec" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="showProgressMessages" value="true" />
+      <setting name="useSbt" value="false" />
+      <setting name="useUiWithSbt" value="false" />
+      <setting name="jrePath" value="" />
+      <envs />
+      <setting name="testKind" value="Class" />
+      <setting name="path" value="sample.InventoryServerSpec" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryServerSpec.A Product Manager must be automatically started" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+      <module name="akka-cluster-sharding-visualizer" />
+      <setting name="path" value="sample.InventoryServerSpec" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="showProgressMessages" value="true" />
+      <setting name="useSbt" value="false" />
+      <setting name="useUiWithSbt" value="false" />
+      <setting name="jrePath" value="" />
+      <envs />
+      <setting name="testKind" value="Test name" />
+      <setting name="path" value="sample.InventoryServerSpec" />
+      <setting name="testName" value="A Product Manager must be automatically started" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Runner" />
+        <item itemvalue="ScalaTest.InventoryServerSpec.A Product Manager must be automatically started" />
+        <item itemvalue="ScalaTest.InventoryServerSpec" />
+        <item itemvalue="Application.SampleMultiJvmNode2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="availableProjects">
+      <map>
+        <entry>
+          <key>
+            <ExternalProjectPojo>
+              <option name="name" value="akka-cluster-sharding-visualizer" />
+              <option name="path" value="$PROJECT_DIR$" />
+            </ExternalProjectPojo>
+          </key>
+          <value>
+            <list>
+              <ExternalProjectPojo>
+                <option name="name" value="akka-cluster-sharding-visualizer [file:/Users/nolangrace/Documents/Github/akka-cluster-sharding-visualizer/]" />
+                <option name="path" value="$PROJECT_DIR$" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value="akka-cluster-sharding-visualizer-build" />
+                <option name="path" value="$PROJECT_DIR$/project" />
+              </ExternalProjectPojo>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="modificationStamps">
+      <map>
+        <entry key="$PROJECT_DIR$/build.sbt" value="2173651706" />
+        <entry key="$PROJECT_DIR$/project/build.properties" value="3280644262" />
+        <entry key="$PROJECT_DIR$/project/plugins.sbt" value="750252738" />
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$/../LSS-P-lightbend-spark-for-scala-professional" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-distributed-workers-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-quickstart-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-sample-cluster-docker-compose-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-samples-cluster-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-samples-cluster-sharding-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-samples/akka-sample-cluster-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-getting-started/akka-samples/akka-sample-cluster-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-grpc-quickstart-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-grpc-sample-kubernetes-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-quickstart-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-saga" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-sample-cluster-kubernetes-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-sample-cluster-on-google-platform" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-samples-cluster-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-samples-cluster-sharding-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-samples-cluster-sharding-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-samples-persistence-java" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../akka-typed-example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../alpakka" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../connected-car-pipeline" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../es-demos" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../es-demos/shoppingcartapp" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../fdp-sample-applications/apps/anomaly-detection/source/core" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../fdp-sample-applications/apps/killrweather" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../gsa-fdp-demo/fdp-killrweather" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../killrweather-pipelines" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../lagom-java-sbt-chirper-example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../lagom-scala-sbt" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../lightbend-piplines-drools-example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../michelin-pipelines-demo/stock-datahub-akka" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../michelin-pipelines-demo/stock-datahub-pipeline" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../michelin-pipelines-demo/stock-datahub-pipeline/project" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../michelin/michelin-pipelines-demo/stock-datahub-akka" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../michelin/michelin-pipelines-demo/stock-datahub-pipeline" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../michelin2/michelin-pipelines-demo/stock-datahub-akka" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../model-serving-tutorial" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../pipelines-drools-redhat-summit/sensor-data-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../pipelines-examples/call-record-aggregator" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../pipelines-examples/killrweather-pipelines" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../pipelines-examples/sensor-data-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../pipelines-examples/spark-sensors" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../pipelines-model-serving" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../play-getting-started/play-java-chatroom-example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../play-getting-started/play-java-rest-api-example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../play-scala-rest-api-example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../play-webgoat" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e63d63c-bc38-4cad-8485-cabd2ae223d2" name="Default Changelist" comment="" />
+      <created>1560708802435</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1560708802435</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 15h 59m 42s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 00m 43s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 01m 09s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 01m 28s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 01m 55s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 06m 42s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 07m 22s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec - 2019.06.17 at 16h 09m 40s.xml">
+      <configuration name="InventoryServerSpec" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec_A_Product_Manager_must_be_automatically_started - 2019.06.17 at 16h 19m 57s.xml">
+      <configuration name="InventoryServerSpec.A Product Manager must be automatically started" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="InventoryServerSpec_A_Product_Manager_must_be_automatically_started - 2019.06.17 at 16h 21m 50s.xml">
+      <configuration name="InventoryServerSpec.A Product Manager must be automatically started" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="68" y="43" width="1577" height="866" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21172638" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2751938" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32945737" />
+      <window_info anchor="bottom" id="SBT Console" order="8" />
+      <window_info anchor="bottom" id="sbt-shell-toolwindow" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32945737" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="sbt" order="5" visible="true" weight="0.15570033" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Gradle" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="9" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/multi-jvm/scala/akka.clustervis/StatsSampleSpec.scala" />
+    <entry file="file://$PROJECT_DIR$/src/multi-jvm/scala/sample/Sample.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="719">
+          <caret line="77" selection-start-line="77" selection-end-line="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/sample/Runner.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="16" column="67" selection-start-line="16" selection-start-column="67" selection-end-line="16" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/sample/Counter.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding>
+            <element signature="e#16#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scriptFile.scala">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/build.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/plugins.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="61" selection-start-line="4" selection-start-column="61" selection-end-line="4" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/sample/Test.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="2" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/local.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rbac.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-59">
+          <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/d3.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/d3.v5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/monitor2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3251">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/k8.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="165">
+            <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sample/Runner.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="111" selection-start-line="18" selection-start-column="111" selection-end-line="18" selection-end-column="111" />
+          <folding>
+            <element signature="e#16#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/akka/ClusterListenerActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sample/ClusterRunner.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="27" column="67" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+          <folding>
+            <element signature="e#16#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/monitor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="280" column="20" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/akka/HttpServerActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="124" column="17" lean-forward="true" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="17" />
+          <folding>
+            <element signature="e#14#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sample/MainActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="24" column="4" lean-forward="true" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="98" />
+          <folding>
+            <element signature="e#16#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/akka/TreeModelActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="103" column="47" selection-start-line="103" selection-start-column="47" selection-end-line="103" selection-end-column="47" />
+          <folding>
+            <element signature="e#14#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.20083682" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
