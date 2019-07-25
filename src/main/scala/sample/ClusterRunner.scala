@@ -14,7 +14,7 @@ object ClusterRunner {
   implicit val materializer = ActorMaterializer()
   // needed for the future flatMap/onComplete in the end
   implicit val executionContext = system.dispatcher
-  //  val treeActor = system.actorOf(TreeModelActor.props(true, true), "tree-actor")
+  val treeActor = system.actorOf(TreeModelActor.props(true, true), "tree-actor")
 
   def main(args: Array[String]): Unit = {
 
@@ -25,8 +25,8 @@ object ClusterRunner {
     ClusterBootstrap(system).start()
     println("Runner Strarting up")
 
-    //    val mainActor = system.actorOf(MainActor.props(treeActor, true), "main-actor" + UUID.randomUUID().toString)
-    //    mainActor ! GO
+    val mainActor = system.actorOf(MainActor.props(treeActor, true), "main-actor" + UUID.randomUUID().toString)
+    mainActor ! GO
 
   }
 
