@@ -22,7 +22,7 @@ class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with Acto
 
   override def preStart(): Unit = {
 
-    TreeModelActor ! RegisterActor(self.path.name, context.parent.path.name, self.path.name, "0")
+    TreeModelActor ! RegisterActor(self.path.name, context.parent.path.name, self.path.name, Math.random().toString)
 
     if (live)
       context.system.scheduler.scheduleOnce(Duration(5, duration.SECONDS), self, "kill")

@@ -34,6 +34,7 @@ lazy val root = (project in file("."))
         "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
         "com.typesafe.akka" %% "akka-cluster-metrics" % akkaVersion,
         "com.typesafe.akka" %% "akka-distributed-data" % akkaVersion,
+        "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
 //
         "com.lightbend.akka.management" %% "akka-management"                   % akkaMgmtVersion,
         "com.lightbend.akka.management" %% "akka-management-cluster-http"      % akkaMgmtVersion,

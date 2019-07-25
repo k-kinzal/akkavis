@@ -4,9 +4,10 @@ import java.util.UUID
 
 import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import akka.cluster.Cluster
-import akka.cluster.ClusterEvent.{ InitialStateAsEvents, MemberExited, MemberRemoved, MemberUp }
 import akka.cluster.ddata.{ DistributedData, LWWMap, LWWMapKey }
-import akka.cluster.ddata.Replicator.{ Delete, Get, GetSuccess, ReadAll, ReadLocal, ReadMajority, Subscribe, Update, WriteAll, WriteLocal, WriteMajority }
+import akka.cluster.ddata.Replicator.{ Get, GetSuccess, ReadAll, Update, WriteAll }
+import akka.cluster.pubsub.DistributedPubSub
+import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe }
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 
@@ -35,7 +36,7 @@ class TreeModelActor(clusterFlag: Boolean, startHttp: Boolean) extends Actor wit
 
   val replicator = DistributedData(context.system).replicator
   implicit val node = DistributedData(context.system).selfUniqueAddress
-  val nodeName = UUID.randomUUID().toString
+  val nodeName = cluster.selfAddress.toString
 
   val ClusterTreeKey = LWWMapKey[String, Tree]("tree")
 
@@ -48,10 +49,14 @@ class TreeModelActor(clusterFlag: Boolean, startHttp: Boolean) extends Actor wit
   var localTree = Tree(nodeName, nodeName, "member", 0,
     nodeName, List.empty[Tree], "")
 
+  val mediator = DistributedPubSub(context.system).mediator
+
   override def preStart(): Unit = {
     //    replicator ! Subscribe(ClusterTreeKey, self)
 
     replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
+
+    mediator ! Subscribe("cluster-node-killswitch", self)
 
     if (startHttp)
       context.system.actorOf(HttpServerActor.props(true, "localhost", 8080, self), "http-server")
@@ -84,45 +89,24 @@ class TreeModelActor(clusterFlag: Boolean, startHttp: Boolean) extends Actor wit
 
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
     }
+    case sn: StopNode => {
+      if (cluster.selfAddress.toString.equals(sn.nodeUrl)) {
+        replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
 
-    //    case r: UnregisterActorCluster => {
-    //      if (r.node != cluster.selfAddress.toString) {
-    //        println("Unregister Cluster Actor: " + r.toString)
-    //        tree = Tree.removeActor(tree, r.actorId)
-    //      }
-    //    }
-    //    case GetNodeUpdate =>
-    //      log.info("Received: Cluster Update Publish")
-    //      mediator ! Publish("cluster-vis", NodeUpdate(Tree.getNode(tree, cluster.selfAddress.toString)))
-    //    case n: NodeUpdate =>
-    //      log.info("Received: Node Update")
-    //      tree = Tree.updateNode(tree, n.node)
-    //    case m: MemberExited =>
-    //      log.info("Member removed: " + m.member.address.toString)
-    //      tree = Tree.removeNode(tree, m.member.address.toString)
-    //    case "cluster_update" =>
-    //      log.info("Cluster Update: ")
-    //      mediator ! Publish("cluster-vis", GetNodeUpdate)
-    //    case sn: StopNode => {
-    //      if (cluster.selfAddress.toString.equals(sn.nodeUrl))
-    //        System.exit(1)
-    //      else {
-    //        log.info("Member removed: " + sn.nodeUrl)
-    //        tree = Tree.removeNode(tree, sn.nodeUrl)
-    //
-    //        mediator ! Publish("cluster-vis", ClusterStopNode(sn.nodeUrl))
-    //      }
-    //    }
-    //    case sn: ClusterStopNode => {
-    //      if (cluster.selfAddress.toString.equals(sn.node))
-    //        System.exit(1)
-    //    }
+        System.exit(1)
+      } else {
+        mediator ! Publish("cluster-node-killswitch", ClusterStopNode(sn.nodeUrl))
+      }
+    }
+    case sn: ClusterStopNode => {
+      if (cluster.selfAddress.toString.equals(sn.node)) {
+        replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
+
+        System.exit(1)
+      }
+    }
     case m: Any => log.info("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
   }
-
-  //  override def postStop(): Unit = {
-  //    replicator ! Delete(NodeTreeKey, WriteLocal)
-  //  }
 }
 
 case class Tree(name: String, id: String, nodeType: String, events: Int, node: String, children: List[Tree], value: String)
