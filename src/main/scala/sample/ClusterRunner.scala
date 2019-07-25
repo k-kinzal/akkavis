@@ -2,7 +2,7 @@ package sample
 
 import java.util.UUID
 
-import akka.HttpServerActor
+import akka.{ HttpServerActor, TreeModelActor }
 import akka.actor.{ ActorSystem, Props }
 import akka.cluster.Cluster
 import akka.management.cluster.bootstrap.ClusterBootstrap
@@ -14,7 +14,7 @@ object ClusterRunner {
   implicit val materializer = ActorMaterializer()
   // needed for the future flatMap/onComplete in the end
   implicit val executionContext = system.dispatcher
-  val httpServer = system.actorOf(HttpServerActor.props(true), "http-server")
+  //  val treeActor = system.actorOf(TreeModelActor.props(true, true), "tree-actor")
 
   def main(args: Array[String]): Unit = {
 
@@ -25,8 +25,8 @@ object ClusterRunner {
     ClusterBootstrap(system).start()
     println("Runner Strarting up")
 
-    val mainActor = system.actorOf(MainActor.props(httpServer, true), "main-actor" + UUID.randomUUID().toString)
-    mainActor ! GO
+    //    val mainActor = system.actorOf(MainActor.props(treeActor, true), "main-actor" + UUID.randomUUID().toString)
+    //    mainActor ! GO
 
   }
 

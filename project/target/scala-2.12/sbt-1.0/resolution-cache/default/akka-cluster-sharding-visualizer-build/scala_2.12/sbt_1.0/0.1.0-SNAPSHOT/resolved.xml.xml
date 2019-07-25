@@ -4,7 +4,7 @@
 		module="akka-cluster-sharding-visualizer-build"
 		revision="0.1.0-SNAPSHOT"
 		status="integration"
-		publication="20190617175434"
+		publication="20190710144341"
 		e:sbtVersion="1.0" e:scalaVersion="2.12"
 	>
 		<description>
@@ -37,6 +37,7 @@
 		<dependency org="com.typesafe.sbt" name="sbt-native-packager" rev="1.3.22" conf="compile->default(compile)" e:sbtVersion="1.0" e:scalaVersion="2.12"/>
 		<dependency org="com.timushev.sbt" name="sbt-updates" rev="0.4.0" conf="compile->default(compile)" e:sbtVersion="1.0" e:scalaVersion="2.12"/>
 		<dependency org="org.scalariform" name="sbt-scalariform" rev="1.8.2" conf="compile->default(compile)" e:sbtVersion="1.0" e:scalaVersion="2.12"/>
+		<dependency org="com.typesafe.sbt" name="sbt-multi-jvm" rev="0.4.0" conf="compile->default(compile)" e:sbtVersion="1.0" e:scalaVersion="2.12"/>
 		<override org="org.scala-sbt" module="scripted-plugin_2.12" matcher="exact" rev="1.2.7"/>
 	</dependencies>
 </ivy-module>

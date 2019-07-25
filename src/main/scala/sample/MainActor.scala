@@ -11,10 +11,10 @@ import scala.concurrent.duration.Duration
 case object GO
 
 object MainActor {
-  def props(httpServerActor: ActorRef, live: Boolean): Props = Props(new MainActor(httpServerActor, live))
+  def props(TreeModelActor: ActorRef, live: Boolean): Props = Props(new MainActor(TreeModelActor, live))
 }
 
-class MainActor(httpServerActor: ActorRef, live: Boolean) extends Actor with ActorLogging {
+class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with ActorLogging {
   var ticker: Cancellable = null
   implicit val system = context.system
   implicit val ec = system.dispatcher
@@ -22,7 +22,7 @@ class MainActor(httpServerActor: ActorRef, live: Boolean) extends Actor with Act
 
   override def preStart(): Unit = {
 
-    httpServerActor ! RegisterActor(self.path.name, context.parent.path.name, self.path.name, "0")
+    TreeModelActor ! RegisterActor(self.path.name, context.parent.path.name, self.path.name, "0")
 
     if (live)
       context.system.scheduler.scheduleOnce(Duration(5, duration.SECONDS), self, "kill")
@@ -37,7 +37,7 @@ class MainActor(httpServerActor: ActorRef, live: Boolean) extends Actor with Act
     case "tick" => {
       println("tick")
       if (context.children.size < 5)
-        context.actorOf(MainActor.props(httpServerActor, live), "MainActor" + UUID.randomUUID().toString)
+        context.actorOf(MainActor.props(TreeModelActor, live), "MainActor" + UUID.randomUUID().toString)
     }
     case "kill" => {
       if (!master)
@@ -47,7 +47,7 @@ class MainActor(httpServerActor: ActorRef, live: Boolean) extends Actor with Act
   }
 
   override def postStop(): Unit = {
-    httpServerActor ! UnregisterActor(self.path.name)
+    TreeModelActor ! UnregisterActor(self.path.name)
   }
 
   private def scheduleMessageRateTicker: Unit = {
