@@ -1,10 +1,13 @@
 package akka
 
+import java.util.UUID
+
 import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import akka.cluster.Cluster
-import akka.cluster.ClusterEvent.{ InitialStateAsEvents, MemberExited, MemberRemoved, MemberUp }
+import akka.cluster.ddata.{ DistributedData, LWWMap, LWWMapKey }
+import akka.cluster.ddata.Replicator.{ Get, GetSuccess, ReadAll, Update, WriteAll }
 import akka.cluster.pubsub.DistributedPubSub
-import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe, SubscribeAck }
+import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe }
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 
@@ -12,7 +15,7 @@ import scala.concurrent.duration
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
 
-case class GetTreeJson()
+case object GetTreeJson
 case class RegisterActor(actorId: String, parentId: String, actorName: String, actorValue: String)
 case class UnregisterActor(actorId: String)
 case class RegisterActorCluster(actorId: String, parentId: String, actorName: String, actorValue: String, node: String)
@@ -21,101 +24,104 @@ case class UnregisterActorCluster(actorId: String, node: String)
 case class GetNodeUpdate()
 case class NodeUpdate(node: Tree)
 
+case class ClusterStopNode(node: String)
+
 object TreeModelActor {
-  def props(clusterFlag: Boolean): Props = Props(new TreeModelActor(clusterFlag))
+  def props(clusterFlag: Boolean, startHttp: Boolean): Props = Props(new TreeModelActor(clusterFlag, startHttp))
 }
 
-class TreeModelActor(clusterFlag: Boolean) extends Actor with ActorLogging {
+class TreeModelActor(clusterFlag: Boolean, startHttp: Boolean) extends Actor with ActorLogging {
   implicit val ec = context.system.dispatcher
-  var tree: Tree = null
-  var mediator: ActorRef = null
-  var cluster: Cluster = null
+  var cluster: Cluster = Cluster(context.system)
+
+  val replicator = DistributedData(context.system).replicator
+  implicit val node = DistributedData(context.system).selfUniqueAddress
+  val nodeName = cluster.selfAddress.toString
+
+  val ClusterTreeKey = LWWMapKey[String, Tree]("tree")
+
+  var clusterVis: LWWMap[String, Tree] = LWWMap.empty[String, Tree]
+
+  private val timeout = 100.seconds
+  private val readStrategy = ReadAll(timeout)
+  private val writeStrategy = WriteAll(timeout)
+
+  var localTree = Tree(nodeName, nodeName, "member", 0,
+    nodeName, List.empty[Tree], "")
+
+  val mediator = DistributedPubSub(context.system).mediator
 
   override def preStart(): Unit = {
-    if (clusterFlag) {
-      cluster = Cluster(context.system)
-      tree = Tree("cluster", "cluster", "cluster", 0, "", List.empty[Tree], "")
-      tree = Tree.updateNode(
-        tree,
-        Tree(cluster.selfAddress.toString, cluster.selfAddress.toString, "member", 0, cluster.selfAddress.toString, List.empty[Tree], ""))
+    //    replicator ! Subscribe(ClusterTreeKey, self)
 
-      mediator = DistributedPubSub(context.system).mediator
-      mediator ! Subscribe("cluster-vis", self)
+    replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
 
-      context.system.scheduler.schedule(Duration(0, duration.SECONDS), Duration(5, duration.SECONDS), self, "cluster_update")
-      cluster.subscribe(self, initialStateMode = InitialStateAsEvents, classOf[MemberExited], classOf[MemberUp])
-    } else {
-      tree = Tree("user", "user", "cluster", 0, "", List.empty[Tree], "")
-    }
+    mediator ! Subscribe("cluster-node-killswitch", self)
+
+    if (startHttp)
+      context.system.actorOf(HttpServerActor.props(true, "localhost", 8080, self), "http-server")
   }
 
   override def receive: Receive = {
-    case GetTreeJson => {
-      sender() ! Tree.toJson(tree)
+    case g @ GetTreeJson => {
+      replicator ! Get(ClusterTreeKey, readStrategy, Some(sender()))
     }
+    case g @ GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
+      val data = Tree.toJson(g.get(ClusterTreeKey))
+      replyTo ! data
+
     case r: RegisterActor => {
       println("Register Actor: " + r.toString)
-      //      mediator ! Publish("cluster-vis", RegisterActorCluster(r.actorId, r.parentId, r.actorName, r.parentId, cluster.selfAddress.toString))
+
       if (clusterFlag)
         if (r.parentId.equals("user"))
-          tree = Tree.addActor(tree, r.actorId, cluster.selfAddress.toString, r.actorName, r.actorValue, cluster.selfAddress.toString)
+          localTree = Tree.addActor(localTree, r.actorId, nodeName, r.actorName, r.actorValue, nodeName)
         else
-          tree = Tree.addActor(tree, r.actorId, r.parentId, r.actorName, r.actorValue, cluster.selfAddress.toString)
+          localTree = Tree.addActor(localTree, r.actorId, r.parentId, r.actorName, r.actorValue, nodeName)
       else
-        tree = Tree.addActor(tree, r.actorId, r.parentId, r.actorName, r.actorValue, null)
-    }
-    case r: RegisterActorCluster => {
-      if (r.node != cluster.selfAddress.toString) {
-        println("Register Cluster Actor: " + r.toString)
-        if (r.parentId.equals("user") && clusterFlag)
-          tree = Tree.addActor(tree, r.actorId, r.node, r.actorName, cluster.selfAddress.toString, r.actorValue)
-        else
-          tree = Tree.addActor(tree, r.actorId, r.parentId, r.actorName, cluster.selfAddress.toString, r.actorValue)
-      }
+        localTree = Tree.addActor(localTree, r.actorId, r.parentId, r.actorName, r.actorValue, null)
+
+      replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
     }
     case r: UnregisterActor => {
       println("Unregister Actor: " + r.toString)
-      //      mediator ! Publish("cluster-vis", UnregisterActorCluster(r.actorId, cluster.selfAddress.toString))
-      tree = Tree.removeActor(tree, r.actorId)
-    }
-    //    case r: UnregisterActorCluster => {
-    //      if (r.node != cluster.selfAddress.toString) {
-    //        println("Unregister Cluster Actor: " + r.toString)
-    //        tree = Tree.removeActor(tree, r.actorId)
-    //      }
-    //    }
-    case GetNodeUpdate =>
-      log.info("Received: Cluster Update Publish")
-      mediator ! Publish("cluster-vis", NodeUpdate(Tree.getNode(tree, cluster.selfAddress.toString)))
-    case n: NodeUpdate =>
-      log.info("Received: Node Update")
-      tree = Tree.updateNode(tree, n.node)
-    case m: MemberExited =>
-      log.info("Member removed: " + m.member.address.toString)
-      tree = Tree.removeNode(tree, m.member.address.toString)
-    case "cluster_update" =>
-      log.info("Cluster Update: ")
-      mediator ! Publish("cluster-vis", GetNodeUpdate)
-    case sn: StopNode => {
-      if (cluster.selfAddress.toString.equals(sn.nodeUrl))
-        System.exit(1)
-      else {
-        log.info("Member removed: " + sn.nodeUrl)
-        tree = Tree.removeNode(tree, sn.nodeUrl)
+      localTree = Tree.removeActor(localTree, r.actorId)
 
-        mediator ! Publish("cluster-vis", sn)
+      replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
+    }
+    case sn: StopNode => {
+      if (cluster.selfAddress.toString.equals(sn.nodeUrl)) {
+        replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
+
+        System.exit(1)
+      } else {
+        mediator ! Publish("cluster-node-killswitch", ClusterStopNode(sn.nodeUrl))
+      }
+    }
+    case sn: ClusterStopNode => {
+      if (cluster.selfAddress.toString.equals(sn.node)) {
+        replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
+
+        System.exit(1)
       }
     }
     case m: Any => log.info("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
-
   }
 }
 
 case class Tree(name: String, id: String, nodeType: String, events: Int, node: String, children: List[Tree], value: String)
 object Tree {
-  def toJson(tree: Tree): String = {
+  def toJson(map: LWWMap[String, Tree]): String = {
 
     implicit val formats = DefaultFormats
+
+    val children: List[Tree] = map.entries.map(m => {
+      m._2
+    }).toList
+
+    println("Number of nodes: " + children.size)
+
+    val tree = Tree("cluster", "cluster", "cluster", 0, "cluster", children, "")
 
     val jsonString = write(tree)
     println(jsonString)

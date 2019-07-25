@@ -2,14 +2,13 @@ package akka
 
 import java.io.IOException
 
-import akka.actor.{ Actor, ActorLogging, Props }
-import akka.cluster.Cluster
+import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.ws.{ Message, TextMessage, UpgradeToWebSocket }
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.{ Flow, Source }
+import akka.stream.scaladsl.Flow
 import akka.util.Timeout
 
 import scala.concurrent.duration
@@ -20,29 +19,16 @@ case class ClusterMessage()
 case class StopNode(nodeUrl: String)
 
 object HttpServerActor {
-  def props(clusterFlag: Boolean): Props = Props(new HttpServerActor(clusterFlag))
+  def props(clusterFlag: Boolean, host: String, port: Int, treeActor: ActorRef): Props = Props(new HttpServerActor(clusterFlag, host, port, treeActor))
 }
 
-class HttpServerActor(clusterFlag: Boolean) extends Actor with ActorLogging {
+class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: ActorRef) extends Actor with ActorLogging {
   implicit val actorSystem = context.system
   implicit val actorMaterializer = ActorMaterializer.create(actorSystem)
   implicit val executionContext = actorSystem.dispatcher
-  var treeActor = context.actorOf(TreeModelActor.props(clusterFlag), "TreeActor")
 
   override def receive: Receive = {
-    case EntityMessage => {
-
-    }
-    case ClusterMessage => {
-
-    }
-    case StopNode => {
-
-    }
-    case r: RegisterActor => treeActor.forward(r)
-    case u: UnregisterActor => treeActor.forward(u)
-    case _ => log.info("Received Unknown Message")
-
+    case m: Any => log.info("unknown Message:" + m)
   }
 
   override def preStart(): Unit = {
@@ -51,11 +37,15 @@ class HttpServerActor(clusterFlag: Boolean) extends Actor with ActorLogging {
   }
 
   def startHttpServer(): Unit = {
-    val serverPort = 8080
+    log.info("Attempting to Start up Cluster Visualization Http Server")
 
-    val bindingFuture = Http().bindAndHandleSync(requestHandler, "localhost", serverPort)
+    val bindingFuture = Http().bindAndHandleSync(requestHandler, host, port)
 
-    println(s"Server online at http://localhost:8080/")
+    bindingFuture.failed.foreach { ex =>
+      log.error(ex, "Failed to bind to {}:{}!", host, port)
+    }
+
+    log.info(s"CLuster Visualization Server online at http://localhost:8080/")
 
   }
 
@@ -111,7 +101,6 @@ class HttpServerActor(clusterFlag: Boolean) extends Actor with ActorLogging {
 
   def readFile(filename: String): String = {
     val fileString = scala.io.Source.fromResource(filename).mkString
-    println("File Contents Read: " + fileString)
     fileString
   }
 
@@ -126,6 +115,7 @@ class HttpServerActor(clusterFlag: Boolean) extends Actor with ActorLogging {
         m.toStrict(Duration(1, duration.SECONDS)).onComplete(m => {
           log.info("Websocket Message: " + m.get.text)
           val message = m.get.text
+          log.info("Received HTTP Message: " + message)
           if (message.contains("akka.tcp")) {
             treeActor ! StopNode(message)
           }
