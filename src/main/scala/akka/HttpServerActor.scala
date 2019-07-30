@@ -45,7 +45,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
       log.error(ex, "Failed to bind to {}:{}!", host, port)
     }
 
-    log.info(s"CLuster Visualization Server online at http://localhost:8080/")
+    log.info(s"Cluster Visualization Server online at http://localhost:8080/")
 
   }
 

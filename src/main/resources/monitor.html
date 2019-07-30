@@ -204,11 +204,11 @@ function update(hierarchy) {
 }
 
 function getDisplayTest(d) {
-    if(d.data.nodeType.includes('shard')) {
+    if(d.data.nodeType.includes('entity')) {
         console.log(d);
         return d.data.value;
     } else {
-        return d.data.name;
+        return d.data.id;
     }
 }
 

@@ -12,9 +12,8 @@ import akka.stream.ActorMaterializer
 object ClusterRunner {
   implicit val system = ActorSystem("my-system")
   implicit val materializer = ActorMaterializer()
-  // needed for the future flatMap/onComplete in the end
   implicit val executionContext = system.dispatcher
-  val treeActor = system.actorOf(TreeModelActor.props(true, true), "tree-actor")
+  val treeActor = system.actorOf(TreeModelActor.props(true, 8080), "tree-actor")
 
   def main(args: Array[String]): Unit = {
 

@@ -18,32 +18,21 @@ class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with Acto
   var ticker: Cancellable = null
   implicit val system = context.system
   implicit val ec = system.dispatcher
-  var master = false
 
   override def preStart(): Unit = {
-
-    TreeModelActor ! RegisterActor(self.path.name, context.parent.path.name, self.path.name, Math.random().toString)
-
-    if (live)
-      context.system.scheduler.scheduleOnce(Duration(5, duration.SECONDS), self, "kill")
-
+    TreeModelActor ! RegisterActor("Main Actor", "user", self.path.name, "Main Actor", "shard")
   }
 
   override def receive: Receive = {
     case GO => {
-      master = true
       scheduleMessageRateTicker
     }
     case "tick" => {
       println("tick")
-      if (context.children.size < 5)
-        context.actorOf(MainActor.props(TreeModelActor, live), "MainActor" + UUID.randomUUID().toString)
-    }
-    case "kill" => {
-      if (!master)
-        context.stop(self)
-    }
 
+      while (context.children.size < 5)
+        context.actorOf(SecondActor.props(TreeModelActor, live), "SecondActor" + UUID.randomUUID().toString)
+    }
   }
 
   override def postStop(): Unit = {
