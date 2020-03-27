@@ -8,6 +8,8 @@ import akka.cluster.ddata.{ DistributedData, LWWMap, LWWMapKey }
 import akka.cluster.ddata.Replicator.{ Get, GetSuccess, ReadAll, Update, WriteAll }
 import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe }
+import akka.cluster.sharding.ShardRegion
+import akka.cluster.sharding.ShardRegion.{ CurrentShardRegionState, GetShardRegionState }
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 
@@ -22,15 +24,16 @@ case class RegisterActorCluster(actorId: String, parentId: String, actorName: St
 case class UnregisterActorCluster(actorId: String, node: String)
 
 case class GetNodeUpdate()
+case class UpdateTree()
 case class NodeUpdate(node: Tree)
 
 case class ClusterStopNode(node: String)
 
 object TreeModelActor {
-  def props(startHttp: Boolean, port: Int): Props = Props(new TreeModelActor(startHttp, port))
+  def props(startHttp: Boolean, port: Int, shardRegion: ActorRef): Props = Props(new TreeModelActor(startHttp, port, shardRegion))
 }
 
-class TreeModelActor(startHttp: Boolean, port: Int) extends Actor with ActorLogging {
+class TreeModelActor(startHttp: Boolean, port: Int, shardRegion: ActorRef) extends Actor with ActorLogging {
   implicit val ec = context.system.dispatcher
   var cluster: Cluster = Cluster(context.system)
 
@@ -57,6 +60,10 @@ class TreeModelActor(startHttp: Boolean, port: Int) extends Actor with ActorLogg
 
     mediator ! Subscribe("cluster-node-killswitch", self)
 
+    //    context.system.scheduler.schedule(5.seconds, 5.seconds, self, UpdateTree)
+    //    context.system.scheduler..scheduleWithFixedDelay(Duration.Zero, 50.milliseconds, tickActor, Tick)
+    context.system.scheduler.schedule(0 milliseconds, 5 seconds, self, UpdateTree)
+
     if (startHttp)
       context.system.actorOf(HttpServerActor.props(true, "localhost", port, self), "http-server")
   }
@@ -68,23 +75,39 @@ class TreeModelActor(startHttp: Boolean, port: Int) extends Actor with ActorLogg
     case g @ GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
       val data = Tree.toJson(g.get(ClusterTreeKey))
       replyTo ! data
+    case UpdateTree =>
+      log.info("Update Tree Message Received")
+      localTree = Tree(nodeName, nodeName, "member", 0, List.empty[Tree], "")
 
+      shardRegion ! GetShardRegionState
+    case sr: CurrentShardRegionState =>
+      log.info("CurrentShardRegionState Message Received")
+
+      sr.shards.map(shard => {
+        log.info("Add Shard: " + shard.shardId)
+        self ! RegisterActor("Shard-"+shard.shardId + "", "", "Shard-"+shard.shardId + "", "", "shard")
+
+        shard.entityIds.map(id => {
+          log.info("Add Shard: " + shard.shardId + " Entity: " + id)
+          self ! RegisterActor(id, shard.shardId + "", id, id, "entity")
+        })
+      })
     case r: RegisterActor => {
       println("Register Actor: " + r.toString)
 
-      if (r.parentId.equals("user"))
+      if (r.parentId.equals("user") || r.nodeType.equals("shard"))
         localTree = Tree.addActor(localTree, r.actorId, nodeName, r.actorName, r.actorValue, r.nodeType)
       else
         localTree = Tree.addActor(localTree, r.actorId, r.parentId, r.actorName, r.actorValue, r.nodeType)
 
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
     }
-    case r: UnregisterActor => {
-      println("Unregister Actor: " + r.toString)
-      localTree = Tree.removeActor(localTree, r.actorId)
-
-      replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
-    }
+    //    case r: UnregisterActor => {
+    //      println("Unregister Actor: " + r.toString)
+    //      localTree = Tree.removeActor(localTree, r.actorId)
+    //
+    //      replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
+    //    }
     case sn: StopNode => {
       if (cluster.selfAddress.toString.equals(sn.nodeUrl)) {
         replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))

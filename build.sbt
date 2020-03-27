@@ -3,7 +3,7 @@ import com.typesafe.sbt.packager.docker.{Cmd, ExecCmd}
 
 name := "akka-cluster-sharding-visualizer"
 organization := "org.lightbend"
-version := "0.1"
+version := "0.2"
 
 scalaVersion := "2.12.7"
 
