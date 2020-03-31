@@ -2,10 +2,10 @@ package sample
 
 import java.util.UUID
 
-import akka.{HttpServerActor, TreeModelActor}
-import akka.actor.{ActorRef, ActorSystem, Props}
+import akka.{ HttpServerActor, TreeModelActor }
+import akka.actor.{ ActorRef, ActorSystem, Props }
 import akka.cluster.Cluster
-import akka.cluster.sharding.{ClusterSharding, ClusterShardingSettings}
+import akka.cluster.sharding.{ ClusterSharding, ClusterShardingSettings }
 import akka.management.cluster.bootstrap.ClusterBootstrap
 import akka.management.scaladsl.AkkaManagement
 import akka.stream.ActorMaterializer
@@ -15,14 +15,13 @@ object ClusterRunner {
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
 
-
   def main(args: Array[String]): Unit = {
 
-//    // Akka Management hosts the HTTP routes used by bootstrap
-//    AkkaManagement(system).start()
+    //    // Akka Management hosts the HTTP routes used by bootstrap
+    //    AkkaManagement(system).start()
 
-//    // Starting the bootstrap process needs to be done explicitly
-//    ClusterBootstrap(system).start()
+    //    // Starting the bootstrap process needs to be done explicitly
+    //    ClusterBootstrap(system).start()
     println("Runner Strarting up")
 
     val shardRegion: ActorRef = ClusterSharding(system).start(

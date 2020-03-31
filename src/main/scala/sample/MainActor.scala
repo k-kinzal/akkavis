@@ -2,16 +2,16 @@ package sample
 
 import java.util.UUID
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Cancellable, Props}
+import akka.actor.{ Actor, ActorLogging, ActorRef, Cancellable, Props }
 import scala.concurrent.duration._
 
 case object GO
 
 object MainActor {
-  def props(shardRegion:ActorRef): Props = Props(new MainActor(shardRegion))
+  def props(shardRegion: ActorRef): Props = Props(new MainActor(shardRegion))
 }
 
-class MainActor(shardRegion:ActorRef) extends Actor with ActorLogging {
+class MainActor(shardRegion: ActorRef) extends Actor with ActorLogging {
   var ticker: Cancellable = null
   implicit val system = context.system
   implicit val ec = system.dispatcher

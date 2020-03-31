@@ -1,22 +1,19 @@
-import com.typesafe.sbt.SbtNativePackager.autoImport.packageName
-import com.typesafe.sbt.packager.docker.{Cmd, ExecCmd}
-
 name := "akka-cluster-sharding-visualizer"
 organization := "org.lightbend"
 version := "0.2"
 
 scalaVersion := "2.12.7"
 
-Compile/mainClass := Some("sample.ClusterRunner")
-
 val akkaVersion = "2.5.23"
 lazy val akkaHttpVersion = "10.1.8"
 lazy val akkaMgmtVersion   = "1.0.1"
 
 lazy val root = (project in file("."))
-  .enablePlugins(MultiJvmPlugin, JavaAppPackaging, DockerPlugin)
-  .configs(MultiJvm)
     .settings(
+      organization := "com.lightbend",
+      version := "0.0.1",
+      licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
+      bintrayRepository := "akka-cluster-visualization",
       libraryDependencies ++= Seq(
         "com.typesafe.akka" %% "akka-actor" % akkaVersion,
         "com.typesafe.akka" %% "akka-stream" % akkaVersion,

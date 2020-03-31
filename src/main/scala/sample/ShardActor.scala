@@ -2,14 +2,14 @@ package sample
 
 import java.util.UUID
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Cancellable, Props}
+import akka.actor.{ Actor, ActorLogging, ActorRef, Cancellable, Props }
 import akka.cluster.sharding.ShardRegion
-import akka.{RegisterActor, UnregisterActor}
+import akka.{ RegisterActor, UnregisterActor }
 
 import scala.concurrent.duration
 import scala.concurrent.duration.Duration
 
-case class TestMessage(id:String)
+case class TestMessage(id: String)
 
 object ShardActor {
   val extractEntityId: ShardRegion.ExtractEntityId = {

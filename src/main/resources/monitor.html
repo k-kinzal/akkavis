@@ -207,6 +207,8 @@ function getDisplayTest(d) {
     if(d.data.nodeType.includes('entity')) {
         console.log(d);
         return d.data.value;
+    } else if(d.data.nodeType.includes('member')) {
+        return "";
     } else {
         return d.data.id;
     }

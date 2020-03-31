@@ -85,11 +85,11 @@ class TreeModelActor(startHttp: Boolean, port: Int, shardRegion: ActorRef) exten
 
       sr.shards.map(shard => {
         log.info("Add Shard: " + shard.shardId)
-        self ! RegisterActor("Shard-"+shard.shardId + "", "", "Shard-"+shard.shardId + "", "", "shard")
+        self ! RegisterActor("Shard-" + shard.shardId + "", "", "Shard-" + shard.shardId + "", "", "shard")
 
         shard.entityIds.map(id => {
           log.info("Add Shard: " + shard.shardId + " Entity: " + id)
-          self ! RegisterActor(id, "Shard-"+shard.shardId, id, id, "entity")
+          self ! RegisterActor(id, "Shard-" + shard.shardId, id, id, "entity")
         })
       })
     case r: RegisterActor => {
