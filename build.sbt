@@ -17,14 +17,6 @@ lazy val root = (project in file("."))
   .enablePlugins(MultiJvmPlugin, JavaAppPackaging, DockerPlugin)
   .configs(MultiJvm)
     .settings(
-      dockerBaseImage := "registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift",
-      packageName in Docker := "akkavis",
-      //version in Docker ~= (_.replace('+', '-'))
-      //dynver in Docker ~= (_.replace('+', '-'))
-      dockerUpdateLatest := true,
-      //akka cluster, akka management, http respectively
-      dockerExposedPorts ++= Seq(2551, 8558, 8080),
-
       libraryDependencies ++= Seq(
         "com.typesafe.akka" %% "akka-actor" % akkaVersion,
         "com.typesafe.akka" %% "akka-stream" % akkaVersion,
@@ -35,7 +27,9 @@ lazy val root = (project in file("."))
         "com.typesafe.akka" %% "akka-cluster-metrics" % akkaVersion,
         "com.typesafe.akka" %% "akka-distributed-data" % akkaVersion,
         "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
-//
+        "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
+        "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
+
         "com.lightbend.akka.management" %% "akka-management"                   % akkaMgmtVersion,
         "com.lightbend.akka.management" %% "akka-management-cluster-http"      % akkaMgmtVersion,
         "com.lightbend.akka.management" %% "akka-management-cluster-bootstrap" % akkaMgmtVersion,
