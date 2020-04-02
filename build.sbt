@@ -1,12 +1,12 @@
 name := "akka-cluster-sharding-visualizer"
 organization := "org.lightbend"
-version := "0.4"
+version := "0.4.1"
 
 scalaVersion := "2.12.7"
 
-val akkaVersion = "2.5.23"
-lazy val akkaHttpVersion = "10.1.8"
-lazy val akkaMgmtVersion   = "1.0.1"
+val akkaVersion = "2.6.4"
+lazy val akkaHttpVersion = "10.1.11"
+lazy val akkaMgmtVersion   = "1.0.6"
 
 lazy val root = (project in file("."))
     .settings(

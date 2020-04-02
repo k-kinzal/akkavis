@@ -1,4 +1,4 @@
-package akka
+package akkavisualizer
 
 import java.util.UUID
 

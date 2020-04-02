@@ -1,4 +1,4 @@
-package akka
+package akkavisualizer
 
 import akka.actor.{ Actor, ActorLogging }
 import akka.cluster.Cluster

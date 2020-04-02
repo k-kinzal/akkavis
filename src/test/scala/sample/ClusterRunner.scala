@@ -2,7 +2,7 @@ package sample
 
 import java.util.UUID
 
-import akka.{ HttpServerActor, TreeModelActor }
+import akka.TreeModelActor
 import akka.actor.{ ActorRef, ActorSystem, Props }
 import akka.cluster.Cluster
 import akka.cluster.sharding.{ ClusterSharding, ClusterShardingSettings }
