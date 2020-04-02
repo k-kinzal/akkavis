@@ -1,6 +1,6 @@
 name := "akka-cluster-sharding-visualizer"
 organization := "org.lightbend"
-version := "0.2"
+version := "0.4"
 
 scalaVersion := "2.12.7"
 
@@ -11,7 +11,6 @@ lazy val akkaMgmtVersion   = "1.0.1"
 lazy val root = (project in file("."))
     .settings(
       organization := "com.lightbend",
-      version := "0.0.1",
       licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
       bintrayRepository := "akka-cluster-visualization",
       libraryDependencies ++= Seq(
