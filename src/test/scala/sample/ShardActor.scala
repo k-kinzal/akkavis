@@ -4,7 +4,6 @@ import java.util.UUID
 
 import akka.actor.{ Actor, ActorLogging, ActorRef, Cancellable, Props }
 import akka.cluster.sharding.ShardRegion
-import akka.{ RegisterActor, UnregisterActor }
 
 import scala.concurrent.duration
 import scala.concurrent.duration.Duration

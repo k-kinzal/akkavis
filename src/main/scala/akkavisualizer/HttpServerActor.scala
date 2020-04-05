@@ -19,13 +19,15 @@ case class ClusterMessage()
 case class StopNode(nodeUrl: String)
 
 object HttpServerActor {
-  def props(clusterFlag: Boolean, host: String, port: Int, treeActor: ActorRef): Props = Props(new HttpServerActor(clusterFlag, host, port, treeActor))
+  def props(clusterFlag: Boolean, port: Int, treeActor: ActorRef): Props = Props(new HttpServerActor(clusterFlag, port, treeActor))
 }
 
-class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: ActorRef) extends Actor with ActorLogging {
+class HttpServerActor(clusterFlag: Boolean, port: Int, treeActor: ActorRef) extends Actor with ActorLogging {
   implicit val actorSystem = context.system
   implicit val actorMaterializer = ActorMaterializer.create(actorSystem)
   implicit val executionContext = actorSystem.dispatcher
+
+  val host = "127.0.0.1"
 
   override def receive: Receive = {
     case m: Any => log.info("unknown Message:" + m)
@@ -45,7 +47,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
       log.error(ex, "Failed to bind to {}:{}!", host, port)
     }
 
-    log.info(s"Cluster Visualization Server online at http://localhost:" + port + "/")
+    log.info(s"Cluster Visualization Server online at http://" + host + ":" + port + "/")
 
   }
 
@@ -113,9 +115,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
       }
       .map(m => {
         m.toStrict(Duration(1, duration.SECONDS)).onComplete(m => {
-          log.info("Websocket Message: " + m.get.text)
           val message = m.get.text
-          log.info("Received HTTP Message: " + message)
           if (message.contains("akka.tcp")) {
             treeActor ! StopNode(message)
           }
@@ -124,6 +124,9 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
         GetTreeJson
       })
       .ask[String](treeActor)
+      .recover {
+        case e: RuntimeException => e.getMessage
+      }
       .mapConcat(m => TextMessage(m) :: Nil)
 }
 

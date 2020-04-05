@@ -1,8 +1,9 @@
 name := "akka-cluster-sharding-visualizer"
 organization := "org.lightbend"
-version := "0.4.1"
+version := "0.4.3"
 
 scalaVersion := "2.12.7"
+mainClass in (Compile, run) := Some("sample.ClusterRunner")
 
 val akkaVersion = "2.6.4"
 lazy val akkaHttpVersion = "10.1.11"

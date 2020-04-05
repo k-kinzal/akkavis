@@ -4,8 +4,9 @@ import java.util.UUID
 
 import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import akka.cluster.Cluster
+import akka.cluster.ClusterEvent.{ InitialStateAsEvents, MemberJoined, MemberRemoved }
 import akka.cluster.ddata.{ DistributedData, LWWMap, LWWMapKey }
-import akka.cluster.ddata.Replicator.{ Get, GetSuccess, ReadAll, Update, WriteAll }
+import akka.cluster.ddata.Replicator.{ Delete, Get, GetSuccess, ReadAll, Update, WriteAll, WriteLocal }
 import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe }
 import akka.cluster.sharding.ShardRegion
@@ -30,10 +31,10 @@ case class NodeUpdate(node: Tree)
 case class ClusterStopNode(node: String)
 
 object TreeModelActor {
-  def props(startHttp: Boolean, port: Int, shardRegion: ActorRef): Props = Props(new TreeModelActor(startHttp, port, shardRegion))
+  def props(frontEndPort: Int, shardRegion: ActorRef): Props = Props(new TreeModelActor(frontEndPort, shardRegion))
 }
 
-class TreeModelActor(startHttp: Boolean, port: Int, shardRegion: ActorRef) extends Actor with ActorLogging {
+class TreeModelActor(frontEndPort: Int, shardRegion: ActorRef) extends Actor with ActorLogging {
   implicit val ec = context.system.dispatcher
   var cluster: Cluster = Cluster(context.system)
 
@@ -54,47 +55,47 @@ class TreeModelActor(startHttp: Boolean, port: Int, shardRegion: ActorRef) exten
   val mediator = DistributedPubSub(context.system).mediator
 
   override def preStart(): Unit = {
-    log.info("Starting Tree Actor")
-
     replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
 
-    mediator ! Subscribe("cluster-node-killswitch", self)
+    cluster.subscribe(self, initialStateMode = InitialStateAsEvents, classOf[MemberRemoved])
 
-    //    context.system.scheduler.schedule(5.seconds, 5.seconds, self, UpdateTree)
-    //    context.system.scheduler..scheduleWithFixedDelay(Duration.Zero, 50.milliseconds, tickActor, Tick)
     context.system.scheduler.schedule(0 milliseconds, 5 seconds, self, UpdateTree)
 
-    if (startHttp)
-      context.system.actorOf(HttpServerActor.props(true, "localhost", port, self), "http-server")
+    if (frontEndPort != 0)
+      context.system.actorOf(HttpServerActor.props(true, frontEndPort, self), "http-server")
+  }
+
+  override def postStop(): Unit = {
+    log.info("")
   }
 
   override def receive: Receive = {
     case g @ GetTreeJson => {
+      log.info("Get Tree Json Message Received")
       replicator ! Get(ClusterTreeKey, readStrategy, Some(sender()))
     }
     case g @ GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
+      log.info("Get Success Message Received")
       val data = Tree.toJson(g.get(ClusterTreeKey))
       replyTo ! data
     case UpdateTree =>
-      log.info("Update Tree Message Received")
+      log.debug("Update Tree Message Received")
       localTree = Tree(nodeName, nodeName, "member", 0, List.empty[Tree], "")
 
       shardRegion ! GetShardRegionState
     case sr: CurrentShardRegionState =>
-      log.info("CurrentShardRegionState Message Received")
+      log.debug("CurrentShardRegionState Message Received")
 
       sr.shards.map(shard => {
-        log.info("Add Shard: " + shard.shardId)
+        log.debug("Add Shard: " + shard.shardId)
         self ! RegisterActor("Shard-" + shard.shardId + "", "", "Shard-" + shard.shardId + "", "", "shard")
 
         shard.entityIds.map(id => {
-          log.info("Add Shard: " + shard.shardId + " Entity: " + id)
+          log.debug("Add Shard: " + shard.shardId + " Entity: " + id)
           self ! RegisterActor(id, "Shard-" + shard.shardId, id, id, "entity")
         })
       })
     case r: RegisterActor => {
-      println("Register Actor: " + r.toString)
-
       if (r.parentId.equals("user") || r.nodeType.equals("shard"))
         localTree = Tree.addActor(localTree, r.actorId, nodeName, r.actorName, r.actorValue, r.nodeType)
       else
@@ -102,29 +103,14 @@ class TreeModelActor(startHttp: Boolean, port: Int, shardRegion: ActorRef) exten
 
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
     }
-    //    case r: UnregisterActor => {
-    //      println("Unregister Actor: " + r.toString)
-    //      localTree = Tree.removeActor(localTree, r.actorId)
-    //
-    //      replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
-    //    }
-    case sn: StopNode => {
-      if (cluster.selfAddress.toString.equals(sn.nodeUrl)) {
-        replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
+    case MemberRemoved(member, previousStatus) => {
+      log.debug("Member is Removed: {} after {}", member.address, previousStatus)
 
-        System.exit(1)
-      } else {
-        mediator ! Publish("cluster-node-killswitch", ClusterStopNode(sn.nodeUrl))
-      }
+      replicator ! Update(
+        ClusterTreeKey,
+        LWWMap.empty[String, Tree], WriteLocal)(_.remove(node, member.address.toString))
     }
-    case sn: ClusterStopNode => {
-      if (cluster.selfAddress.toString.equals(sn.node)) {
-        replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
-
-        System.exit(1)
-      }
-    }
-    case m: Any => log.info("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
+    case m: Any => log.debug("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
   }
 }
 
@@ -138,12 +124,9 @@ object Tree {
       m._2
     }).toList
 
-    println("Number of nodes: " + children.size)
-
     val tree = Tree("cluster", "cluster", "cluster", 0, children, "")
 
     val jsonString = write(tree)
-    println(jsonString)
     jsonString
   }
 
@@ -157,7 +140,6 @@ object Tree {
   }
 
   def addActor(tree: Tree, actorId: String, parentId: String, actorName: String, actorValue: String, nodeType: String): Tree = {
-    println("tree id: " + tree.id + " parentName:" + parentId)
     if (tree.id.equals(parentId)) {
       val newChild = new Tree(actorName, actorId, nodeType, 0, List.empty[Tree], actorValue)
       new Tree(tree.name, tree.id, tree.nodeType, tree.events, newChild :: tree.children, tree.value)
@@ -172,7 +154,6 @@ object Tree {
   }
 
   def updateNode(tree: Tree, node: Tree): Tree = {
-    println("Add Node: " + node.name)
     val newChildren: List[Tree] = node :: tree.children.filter(_.id != node.id)
     Tree(tree.name, tree.id, tree.nodeType, tree.events, newChildren, tree.value)
   }
