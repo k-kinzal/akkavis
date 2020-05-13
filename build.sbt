@@ -1,11 +1,8 @@
-import com.typesafe.sbt.SbtNativePackager.autoImport.packageName
-import com.typesafe.sbt.packager.docker.{Cmd, ExecCmd}
-
 name := "akka-cluster-sharding-visualizer"
 organization := "org.lightbend"
 version := "0.1"
 
-scalaVersion := "2.12.7"
+scalaVersion := "2.12.10"
 
 Compile/mainClass := Some("sample.ClusterRunner")
 
@@ -14,16 +11,10 @@ lazy val akkaHttpVersion = "10.1.8"
 lazy val akkaMgmtVersion   = "1.0.1"
 
 lazy val root = (project in file("."))
-  .enablePlugins(MultiJvmPlugin, JavaAppPackaging, DockerPlugin)
+  .enablePlugins(MultiJvmPlugin, PackPlugin)
   .configs(MultiJvm)
     .settings(
-      dockerBaseImage := "registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift",
-      packageName in Docker := "akkavis",
-      //version in Docker ~= (_.replace('+', '-'))
-      //dynver in Docker ~= (_.replace('+', '-'))
-      dockerUpdateLatest := true,
-      //akka cluster, akka management, http respectively
-      dockerExposedPorts ++= Seq(2551, 8558, 8080),
+      packMain := Map("akkavis" -> "sample.ClusterRunner"),
 
       libraryDependencies ++= Seq(
         "com.typesafe.akka" %% "akka-actor" % akkaVersion,
