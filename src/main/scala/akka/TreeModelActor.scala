@@ -27,10 +27,10 @@ case class NodeUpdate(node: Tree)
 case class ClusterStopNode(node: String)
 
 object TreeModelActor {
-  def props(startHttp: Boolean, port: Int): Props = Props(new TreeModelActor(startHttp, port))
+  def props(startHttp: Boolean, host: String, port: Int): Props = Props(new TreeModelActor(startHttp, host, port))
 }
 
-class TreeModelActor(startHttp: Boolean, port: Int) extends Actor with ActorLogging {
+class TreeModelActor(startHttp: Boolean, host: String, port: Int) extends Actor with ActorLogging {
   implicit val ec = context.system.dispatcher
   var cluster: Cluster = Cluster(context.system)
 
@@ -58,7 +58,7 @@ class TreeModelActor(startHttp: Boolean, port: Int) extends Actor with ActorLogg
     mediator ! Subscribe("cluster-node-killswitch", self)
 
     if (startHttp)
-      context.system.actorOf(HttpServerActor.props(true, "localhost", port, self), "http-server")
+      context.system.actorOf(HttpServerActor.props(true, host, port, self), "http-server")
   }
 
   override def receive: Receive = {

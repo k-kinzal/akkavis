@@ -2,18 +2,20 @@ package sample
 
 import java.util.UUID
 
-import akka.{ HttpServerActor, TreeModelActor }
-import akka.actor.{ ActorSystem, Props }
+import akka.{HttpServerActor, TreeModelActor}
+import akka.actor.{ActorSystem, Props}
 import akka.cluster.Cluster
 import akka.management.cluster.bootstrap.ClusterBootstrap
 import akka.management.scaladsl.AkkaManagement
 import akka.stream.ActorMaterializer
+import com.typesafe.config.{Config, ConfigFactory}
 
 object ClusterRunner {
+  implicit val config = ConfigFactory.load()
   implicit val system = ActorSystem("my-system")
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
-  val treeActor = system.actorOf(TreeModelActor.props(true, 8080), "tree-actor")
+  val treeActor = system.actorOf(TreeModelActor.props(true, config.getString("akkavis.host"), config.getInt("akkavis.port")), "tree-actor")
 
   def main(args: Array[String]): Unit = {
 
