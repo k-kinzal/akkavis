@@ -6,15 +6,13 @@ import akka.TreeModelActor
 import akka.actor.ActorSystem
 import akka.management.cluster.bootstrap.ClusterBootstrap
 import akka.management.scaladsl.AkkaManagement
-import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
 
 object ClusterRunner {
   implicit val config = ConfigFactory.load()
   implicit val system = ActorSystem("my-system")
-  implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
-  val treeActor = system.actorOf(TreeModelActor.props(true, config.getString("akkavis.hostname"), config.getInt("akkavis.port")), "tree-actor")
+  val treeActor = system.actorOf(TreeModelActor.props(startHttp = true, config.getString("akkavis.hostname"), config.getInt("akkavis.port")), "tree-actor")
 
   def main(args: Array[String]): Unit = {
 
@@ -23,9 +21,9 @@ object ClusterRunner {
 
     // Starting the bootstrap process needs to be done explicitly
     ClusterBootstrap(system).start()
-//    println("Runner Strarting up")
+    //    println("Runner Strarting up")
 
-    val mainActor = system.actorOf(MainActor.props(treeActor, true), "main-actor" + UUID.randomUUID().toString)
+    val mainActor = system.actorOf(MainActor.props(treeActor, live = true), "main-actor" + UUID.randomUUID().toString)
     mainActor ! GO
 
   }

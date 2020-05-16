@@ -1,7 +1,7 @@
 package sample
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Cancellable, Props}
-import akka.{RegisterActor, UnregisterActor}
+import akka.actor.{ Actor, ActorLogging, ActorRef, Cancellable, Props }
+import akka.{ RegisterActor, UnregisterActor }
 
 import scala.concurrent.duration
 import scala.concurrent.duration.Duration
@@ -11,7 +11,7 @@ object SecondActor {
 }
 
 class SecondActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with ActorLogging {
-  var ticker: Cancellable = null
+  var ticker: Cancellable = _
   implicit val system = context.system
   implicit val ec = system.dispatcher
 

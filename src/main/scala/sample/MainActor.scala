@@ -2,8 +2,8 @@ package sample
 
 import java.util.UUID
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Cancellable, Props}
-import akka.{RegisterActor, UnregisterActor}
+import akka.actor.{ Actor, ActorLogging, ActorRef, Cancellable, Props }
+import akka.{ RegisterActor, UnregisterActor }
 
 import scala.concurrent.duration
 import scala.concurrent.duration.Duration
@@ -15,7 +15,7 @@ object MainActor {
 }
 
 class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with ActorLogging {
-  var ticker: Cancellable = null
+  var ticker: Cancellable = _
   implicit val system = context.system
   implicit val ec = system.dispatcher
 
@@ -24,22 +24,20 @@ class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with Acto
   }
 
   override def receive: Receive = {
-    case GO => {
-      scheduleMessageRateTicker
-    }
-    case "tick" => {
-//      println("tick")
+    case GO =>
+      scheduleMessageRateTicker()
+    case "tick" =>
+      //      println("tick")
 
       while (context.children.size < 5)
         context.actorOf(SecondActor.props(TreeModelActor, live), "SecondActor" + UUID.randomUUID().toString)
-    }
   }
 
   override def postStop(): Unit = {
     TreeModelActor ! UnregisterActor(self.path.name)
   }
 
-  private def scheduleMessageRateTicker: Unit = {
+  private def scheduleMessageRateTicker(): Unit = {
     //    val memberCount = cluster.state.members.size
     val messageRatePerSec = 1
     val millsPerMessage = 1000 / messageRatePerSec
@@ -47,6 +45,6 @@ class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with Acto
     val tickInterval = Duration(millsPerMessage, duration.MILLISECONDS)
     if (ticker != null) ticker.cancel
     ticker = context.system.scheduler
-      .schedule(Duration(0, duration.MILLISECONDS), tickInterval, self, "tick")
+      .scheduleAtFixedRate(Duration(0, duration.MILLISECONDS), tickInterval, self, "tick")
   }
 }

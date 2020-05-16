@@ -1,11 +1,11 @@
 package akka
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import akka.cluster.Cluster
 import akka.cluster.ddata.Replicator._
-import akka.cluster.ddata.{DistributedData, LWWMap, LWWMapKey}
+import akka.cluster.ddata.{ DistributedData, LWWMap, LWWMapKey }
 import akka.cluster.pubsub.DistributedPubSub
-import akka.cluster.pubsub.DistributedPubSubMediator.{Publish, Subscribe}
+import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe }
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 
@@ -33,7 +33,7 @@ object TreeModelActor {
 
 class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Actor with ActorLogging {
   implicit val ec = context.system.dispatcher
-  var cluster: Cluster = Cluster(context.system)
+  var cluster = Cluster(context.system)
 
   val replicator = DistributedData(context.system).replicator
   implicit val node = DistributedData(context.system).selfUniqueAddress
@@ -59,19 +59,18 @@ class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Ac
     mediator ! Subscribe("cluster-node-killswitch", self)
 
     if (startHttp)
-      context.system.actorOf(HttpServerActor.props(true, hostname, port, self), "http-server")
+      context.system.actorOf(HttpServerActor.props(hostname, port, self), "http-server")
   }
 
   override def receive: Receive = {
-    case g@GetTreeJson => {
+    case GetTreeJson =>
       replicator ! Get(ClusterTreeKey, readStrategy, Some(sender()))
-    }
-    case g@GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
+    case g @ GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
       val data = Tree.toJson(g.get(ClusterTreeKey))
       replyTo ! data
 
-    case r: RegisterActor => {
-//      println("Register Actor: " + r.toString)
+    case r: RegisterActor =>
+      //      println("Register Actor: " + r.toString)
 
       if (r.parentId.equals("user"))
         localTree = Tree.addActor(localTree, r.actorId, nodeName, r.actorName, r.actorValue, r.nodeType)
@@ -79,29 +78,24 @@ class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Ac
         localTree = Tree.addActor(localTree, r.actorId, r.parentId, r.actorName, r.actorValue, r.nodeType)
 
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
-    }
-    case r: UnregisterActor => {
-//      println("Unregister Actor: " + r.toString)
+    case r: UnregisterActor =>
+      //      println("Unregister Actor: " + r.toString)
       localTree = Tree.removeActor(localTree, r.actorId)
 
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
-    }
-    case sn: StopNode => {
+    case sn: StopNode =>
       if (cluster.selfAddress.toString.equals(sn.nodeUrl)) {
         replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
-
         System.exit(1)
       } else {
         mediator ! Publish("cluster-node-killswitch", ClusterStopNode(sn.nodeUrl))
       }
-    }
-    case sn: ClusterStopNode => {
+    case sn: ClusterStopNode =>
       if (cluster.selfAddress.toString.equals(sn.node)) {
         replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_.remove(node, nodeName))
-
         System.exit(1)
       }
-    }
+
     case m: Any => log.debug("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
   }
 }
@@ -113,16 +107,14 @@ object Tree {
 
     implicit val formats = DefaultFormats
 
-    val children: List[Tree] = map.entries.map(m => {
-      m._2
-    }).toList
+    val children: List[Tree] = map.entries.values.toList
 
-//    println("Number of nodes: " + children.size)
+    //    println("Number of nodes: " + children.size)
 
     val tree = Tree("cluster", "cluster", "cluster", 0, children, "")
 
     val jsonString = write(tree)
-//    println(jsonString)
+    //    println(jsonString)
     jsonString
   }
 
@@ -136,7 +128,7 @@ object Tree {
   }
 
   def addActor(tree: Tree, actorId: String, parentId: String, actorName: String, actorValue: String, nodeType: String): Tree = {
-//    println("tree id: " + tree.id + " parentName:" + parentId)
+    //    println("tree id: " + tree.id + " parentName:" + parentId)
     if (tree.id.equals(parentId)) {
       val newChild = new Tree(actorName, actorId, nodeType, 0, List.empty[Tree], actorValue)
       new Tree(tree.name, tree.id, tree.nodeType, tree.events, newChild :: tree.children, tree.value)
@@ -151,7 +143,7 @@ object Tree {
   }
 
   def updateNode(tree: Tree, node: Tree): Tree = {
-//    println("Add Node: " + node.name)
+    //    println("Add Node: " + node.name)
     val newChildren: List[Tree] = node :: tree.children.filter(_.id != node.id)
     Tree(tree.name, tree.id, tree.nodeType, tree.events, newChildren, tree.value)
   }
@@ -162,7 +154,7 @@ object Tree {
   }
 
   def removeActor(tree: Tree, actorId: String): Tree = {
-    if (tree.children.filter(_.id.equals(actorId)).size > 0) {
+    if (tree.children.exists(_.id.equals(actorId))) {
       val newChildren = tree.children.filterNot(_.id.equals(actorId))
       Tree(tree.name, tree.id, tree.nodeType, tree.events, newChildren, tree.value)
     } else {

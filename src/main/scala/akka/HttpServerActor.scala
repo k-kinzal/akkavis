@@ -2,12 +2,12 @@ package akka
 
 import java.io.IOException
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.ws.{Message, TextMessage, UpgradeToWebSocket}
-import akka.stream.ActorMaterializer
+import akka.http.scaladsl.model.ws.{ BinaryMessage, Message, TextMessage, UpgradeToWebSocket }
+import akka.stream.Materializer
 import akka.stream.scaladsl.Flow
 import akka.util.Timeout
 
@@ -21,12 +21,12 @@ case class ClusterMessage()
 case class StopNode(nodeUrl: String)
 
 object HttpServerActor {
-  def props(clusterFlag: Boolean, host: String, port: Int, treeActor: ActorRef): Props = Props(new HttpServerActor(clusterFlag, host, port, treeActor))
+  def props(host: String, port: Int, treeActor: ActorRef): Props = Props(new HttpServerActor(host, port, treeActor))
 }
 
-class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: ActorRef) extends Actor with ActorLogging {
+class HttpServerActor(host: String, port: Int, treeActor: ActorRef) extends Actor with ActorLogging {
   implicit val actorSystem = context.system
-  implicit val actorMaterializer = ActorMaterializer.create(actorSystem)
+  implicit val actorMaterializer = Materializer.apply(actorSystem)
   implicit val executionContext = actorSystem.dispatcher
 
   override def receive: Receive = {
@@ -52,13 +52,12 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
   }
 
   val requestHandler: HttpRequest => HttpResponse = {
-    case req@HttpRequest(GET, Uri.Path("/events"), _, _, _) =>
+    case req @ HttpRequest(GET, Uri.Path("/events"), _, _, _) =>
       req.header[UpgradeToWebSocket] match {
         case Some(upgrade) => upgrade.handleMessages(updateTreeWebSocketService)
         case None => HttpResponse(400, entity = "Not a valid websocket request!")
       }
-    case r: HttpRequest => {
-
+    case r: HttpRequest =>
       log.debug(r.uri.path.toString())
       r.uri.path.toString() match {
         case "/" => htmlFileResponse("monitor.html")
@@ -68,23 +67,21 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
         case "/d3.js" => jsFileResponse("d3.js")
         case "/d3.geom.js" => jsFileResponse("d3.geom.js")
         case "/d3.layout.js" => jsFileResponse("d3.layout.js")
-        case _ => {
+        case _ =>
           r.discardEntityBytes()
           HttpResponse(StatusCodes.NotFound)
-        }
       }
-    }
 
   }
 
   def htmlFileResponse(filename: String): HttpResponse = {
     try {
       val fileContents: String = readFile(filename)
-      return HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, fileContents))
+      HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, fileContents))
     } catch {
       case e: IOException =>
         log.error(e, String.format("I/O error on file '%s'", filename))
-        return HttpResponse(StatusCodes.InternalServerError)
+        HttpResponse(StatusCodes.InternalServerError)
     }
   }
 
@@ -92,11 +89,11 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
     try {
       val fileContents: String = readFile(filename)
 
-      return HttpResponse(entity = HttpEntity(ContentType(MediaTypes.`application/javascript`, HttpCharsets.`UTF-8`), fileContents))
+      HttpResponse(entity = HttpEntity(ContentType(MediaTypes.`application/javascript`, HttpCharsets.`UTF-8`), fileContents))
     } catch {
       case e: IOException =>
         log.error(e, String.format("I/O error on file '%s'", filename))
-        return HttpResponse(StatusCodes.InternalServerError)
+        HttpResponse(StatusCodes.InternalServerError)
     }
   }
 
