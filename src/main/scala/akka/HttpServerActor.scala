@@ -111,6 +111,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
     Flow[Message]
       .mapConcat {
         case tm: TextMessage => tm :: Nil
+        case _: BinaryMessage => Nil
       }
       .map(m => {
         m.toStrict(Duration(1, duration.SECONDS)).onComplete(m => {
