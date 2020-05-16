@@ -1,6 +1,6 @@
 package akka
 
-import akka.actor.{ Actor, ActorLogging }
+import akka.actor.{Actor, ActorLogging}
 import akka.cluster.Cluster
 import akka.cluster.ClusterEvent._
 
@@ -12,6 +12,7 @@ class SimpleClusterListener extends Actor with ActorLogging {
   override def preStart(): Unit = {
     cluster.subscribe(self, initialStateMode = InitialStateAsEvents, classOf[MemberJoined], classOf[MemberRemoved])
   }
+
   override def postStop(): Unit = cluster.unsubscribe(self)
 
   def receive = {

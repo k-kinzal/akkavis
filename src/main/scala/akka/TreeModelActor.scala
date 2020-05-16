@@ -1,36 +1,37 @@
 package akka
 
-import java.util.UUID
-
-import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.cluster.Cluster
-import akka.cluster.ddata.{ DistributedData, LWWMap, LWWMapKey }
-import akka.cluster.ddata.Replicator.{ Get, GetSuccess, ReadAll, Update, WriteAll }
+import akka.cluster.ddata.Replicator._
+import akka.cluster.ddata.{DistributedData, LWWMap, LWWMapKey}
 import akka.cluster.pubsub.DistributedPubSub
-import akka.cluster.pubsub.DistributedPubSubMediator.{ Publish, Subscribe }
+import akka.cluster.pubsub.DistributedPubSubMediator.{Publish, Subscribe}
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 
-import scala.concurrent.duration
-import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
 
 case object GetTreeJson
+
 case class RegisterActor(actorId: String, parentId: String, actorName: String, actorValue: String, nodeType: String)
+
 case class UnregisterActor(actorId: String)
+
 case class RegisterActorCluster(actorId: String, parentId: String, actorName: String, actorValue: String, node: String)
+
 case class UnregisterActorCluster(actorId: String, node: String)
 
 case class GetNodeUpdate()
+
 case class NodeUpdate(node: Tree)
 
 case class ClusterStopNode(node: String)
 
 object TreeModelActor {
-  def props(startHttp: Boolean, host: String, port: Int): Props = Props(new TreeModelActor(startHttp, host, port))
+  def props(startHttp: Boolean, hostname: String, port: Int): Props = Props(new TreeModelActor(startHttp, hostname, port))
 }
 
-class TreeModelActor(startHttp: Boolean, host: String, port: Int) extends Actor with ActorLogging {
+class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Actor with ActorLogging {
   implicit val ec = context.system.dispatcher
   var cluster: Cluster = Cluster(context.system)
 
@@ -58,14 +59,14 @@ class TreeModelActor(startHttp: Boolean, host: String, port: Int) extends Actor 
     mediator ! Subscribe("cluster-node-killswitch", self)
 
     if (startHttp)
-      context.system.actorOf(HttpServerActor.props(true, host, port, self), "http-server")
+      context.system.actorOf(HttpServerActor.props(true, hostname, port, self), "http-server")
   }
 
   override def receive: Receive = {
-    case g @ GetTreeJson => {
+    case g@GetTreeJson => {
       replicator ! Get(ClusterTreeKey, readStrategy, Some(sender()))
     }
-    case g @ GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
+    case g@GetSuccess(ClusterTreeKey, Some(replyTo: ActorRef)) =>
       val data = Tree.toJson(g.get(ClusterTreeKey))
       replyTo ! data
 
@@ -106,6 +107,7 @@ class TreeModelActor(startHttp: Boolean, host: String, port: Int) extends Actor 
 }
 
 case class Tree(name: String, id: String, nodeType: String, events: Int, children: List[Tree], value: String)
+
 object Tree {
   def toJson(map: LWWMap[String, Tree]): String = {
 

@@ -2,11 +2,11 @@ package akka
 
 import java.io.IOException
 
-import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.ws.{ Message, TextMessage, UpgradeToWebSocket }
+import akka.http.scaladsl.model.ws.{Message, TextMessage, UpgradeToWebSocket}
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Flow
 import akka.util.Timeout
@@ -15,7 +15,9 @@ import scala.concurrent.duration
 import scala.concurrent.duration._
 
 case class EntityMessage(memberId: String, shardId: String, entityId: String, action: String, forward: Boolean)
+
 case class ClusterMessage()
+
 case class StopNode(nodeUrl: String)
 
 object HttpServerActor {
@@ -50,7 +52,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
   }
 
   val requestHandler: HttpRequest => HttpResponse = {
-    case req @ HttpRequest(GET, Uri.Path("/events"), _, _, _) =>
+    case req@HttpRequest(GET, Uri.Path("/events"), _, _, _) =>
       req.header[UpgradeToWebSocket] match {
         case Some(upgrade) => upgrade.handleMessages(updateTreeWebSocketService)
         case None => HttpResponse(400, entity = "Not a valid websocket request!")
@@ -86,18 +88,17 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
     }
   }
 
-  def jsFileResponse(filename: String): HttpResponse =
-    {
-      try {
-        val fileContents: String = readFile(filename)
+  def jsFileResponse(filename: String): HttpResponse = {
+    try {
+      val fileContents: String = readFile(filename)
 
-        return HttpResponse(entity = HttpEntity(ContentType(MediaTypes.`application/javascript`, HttpCharsets.`UTF-8`), fileContents))
-      } catch {
-        case e: IOException =>
-          log.error(e, String.format("I/O error on file '%s'", filename))
-          return HttpResponse(StatusCodes.InternalServerError)
-      }
+      return HttpResponse(entity = HttpEntity(ContentType(MediaTypes.`application/javascript`, HttpCharsets.`UTF-8`), fileContents))
+    } catch {
+      case e: IOException =>
+        log.error(e, String.format("I/O error on file '%s'", filename))
+        return HttpResponse(StatusCodes.InternalServerError)
     }
+  }
 
   def readFile(filename: String): String = {
     val fileString = scala.io.Source.fromResource(filename).mkString

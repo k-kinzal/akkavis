@@ -1,9 +1,7 @@
 package sample
 
-import java.util.UUID
-
-import akka.actor.{ Actor, ActorLogging, ActorRef, Cancellable, Props }
-import akka.{ RegisterActor, UnregisterActor }
+import akka.actor.{Actor, ActorLogging, ActorRef, Cancellable, Props}
+import akka.{RegisterActor, UnregisterActor}
 
 import scala.concurrent.duration
 import scala.concurrent.duration.Duration
