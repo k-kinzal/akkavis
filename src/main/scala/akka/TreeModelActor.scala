@@ -52,7 +52,7 @@ class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Ac
   val mediator = DistributedPubSub(context.system).mediator
 
   override def preStart(): Unit = {
-    log.info("Starting Tree Actor")
+    log.debug("Starting Tree Actor")
 
     replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
 
@@ -71,7 +71,7 @@ class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Ac
       replyTo ! data
 
     case r: RegisterActor => {
-      println("Register Actor: " + r.toString)
+//      println("Register Actor: " + r.toString)
 
       if (r.parentId.equals("user"))
         localTree = Tree.addActor(localTree, r.actorId, nodeName, r.actorName, r.actorValue, r.nodeType)
@@ -81,7 +81,7 @@ class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Ac
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
     }
     case r: UnregisterActor => {
-      println("Unregister Actor: " + r.toString)
+//      println("Unregister Actor: " + r.toString)
       localTree = Tree.removeActor(localTree, r.actorId)
 
       replicator ! Update(ClusterTreeKey, LWWMap.empty[String, Tree], writeStrategy)(_ :+ (nodeName, localTree))
@@ -102,7 +102,7 @@ class TreeModelActor(startHttp: Boolean, hostname: String, port: Int) extends Ac
         System.exit(1)
       }
     }
-    case m: Any => log.info("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
+    case m: Any => log.debug("Received Unknown Message: " + m.toString + " From:" + sender().path.address)
   }
 }
 
@@ -117,12 +117,12 @@ object Tree {
       m._2
     }).toList
 
-    println("Number of nodes: " + children.size)
+//    println("Number of nodes: " + children.size)
 
     val tree = Tree("cluster", "cluster", "cluster", 0, children, "")
 
     val jsonString = write(tree)
-    println(jsonString)
+//    println(jsonString)
     jsonString
   }
 
@@ -136,7 +136,7 @@ object Tree {
   }
 
   def addActor(tree: Tree, actorId: String, parentId: String, actorName: String, actorValue: String, nodeType: String): Tree = {
-    println("tree id: " + tree.id + " parentName:" + parentId)
+//    println("tree id: " + tree.id + " parentName:" + parentId)
     if (tree.id.equals(parentId)) {
       val newChild = new Tree(actorName, actorId, nodeType, 0, List.empty[Tree], actorValue)
       new Tree(tree.name, tree.id, tree.nodeType, tree.events, newChild :: tree.children, tree.value)
@@ -151,7 +151,7 @@ object Tree {
   }
 
   def updateNode(tree: Tree, node: Tree): Tree = {
-    println("Add Node: " + node.name)
+//    println("Add Node: " + node.name)
     val newChildren: List[Tree] = node :: tree.children.filter(_.id != node.id)
     Tree(tree.name, tree.id, tree.nodeType, tree.events, newChildren, tree.value)
   }

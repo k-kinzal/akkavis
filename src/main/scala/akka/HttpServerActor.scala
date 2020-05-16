@@ -30,16 +30,16 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
   implicit val executionContext = actorSystem.dispatcher
 
   override def receive: Receive = {
-    case m: Any => log.info("unknown Message:" + m)
+    case m: Any => log.debug("unknown Message:" + m)
   }
 
   override def preStart(): Unit = {
-    log.info("Start")
+    log.debug("Start")
     startHttpServer()
   }
 
   def startHttpServer(): Unit = {
-    log.info("Attempting to Start up Cluster Visualization Http Server")
+    log.debug("Attempting to Start up Cluster Visualization Http Server")
 
     val bindingFuture = Http().bindAndHandleSync(requestHandler, host, port)
 
@@ -47,7 +47,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
       log.error(ex, "Failed to bind to {}:{}!", host, port)
     }
 
-    log.info(s"Cluster Visualization Server online at http://localhost:8080/")
+    log.debug(s"Cluster Visualization Server online at http://{}:{}/", host, port)
 
   }
 
@@ -59,7 +59,7 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
       }
     case r: HttpRequest => {
 
-      log.info(r.uri.path.toString())
+      log.debug(r.uri.path.toString())
       r.uri.path.toString() match {
         case "/" => htmlFileResponse("monitor.html")
         case "/d3.v5.js" => jsFileResponse("d3.v5.js")
@@ -114,9 +114,9 @@ class HttpServerActor(clusterFlag: Boolean, host: String, port: Int, treeActor: 
       }
       .map(m => {
         m.toStrict(Duration(1, duration.SECONDS)).onComplete(m => {
-          log.info("Websocket Message: " + m.get.text)
+          log.debug("Websocket Message: " + m.get.text)
           val message = m.get.text
-          log.info("Received HTTP Message: " + message)
+          log.debug("Received HTTP Message: " + message)
           if (message.contains("akka.tcp")) {
             treeActor ! StopNode(message)
           }

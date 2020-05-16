@@ -28,7 +28,7 @@ class MainActor(TreeModelActor: ActorRef, live: Boolean) extends Actor with Acto
       scheduleMessageRateTicker
     }
     case "tick" => {
-      println("tick")
+//      println("tick")
 
       while (context.children.size < 5)
         context.actorOf(SecondActor.props(TreeModelActor, live), "SecondActor" + UUID.randomUUID().toString)

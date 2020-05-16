@@ -23,7 +23,7 @@ object ClusterRunner {
 
     // Starting the bootstrap process needs to be done explicitly
     ClusterBootstrap(system).start()
-    println("Runner Strarting up")
+//    println("Runner Strarting up")
 
     val mainActor = system.actorOf(MainActor.props(treeActor, true), "main-actor" + UUID.randomUUID().toString)
     mainActor ! GO
