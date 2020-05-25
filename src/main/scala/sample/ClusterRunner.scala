@@ -10,7 +10,7 @@ import com.typesafe.config.ConfigFactory
 
 object ClusterRunner {
   implicit val config = ConfigFactory.load()
-  implicit val system = ActorSystem("my-system")
+  implicit val system = ActorSystem("akkavis")
   implicit val executionContext = system.dispatcher
   val treeActor = system.actorOf(TreeModelActor.props(startHttp = true, config.getString("akkavis.hostname"), config.getInt("akkavis.port")), "tree-actor")
 
