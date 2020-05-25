@@ -1,0 +1,48 @@
+version: '3'
+services:
+  akkavis1:
+    build:
+      context: .
+    image: kinzal/akkavis
+    command:
+      - /opt/docker/bin/akkavis
+      - -Dconfig.resource=discovery-dns.conf
+    ports:
+      - "8080:8080"
+    networks:
+      default:
+        aliases:
+          - akkavis.local
+        ipv4_address: 192.168.96.2
+  akkavis2:
+    build:
+      context: .
+    image: kinzal/akkavis
+    command:
+      - /opt/docker/bin/akkavis
+      - -Dconfig.resource=discovery-dns.conf
+    networks:
+      default:
+        aliases:
+          - akkavis.local
+        ipv4_address: 192.168.96.3
+  akkavis3:
+    build:
+      context: .
+    image: kinzal/akkavis
+    command:
+      - /opt/docker/bin/akkavis
+      - -Dconfig.resource=discovery-dns.conf
+    networks:
+      default:
+        aliases:
+          - akkavis.local
+        ipv4_address: 192.168.96.4
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.96.0/20
