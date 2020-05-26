@@ -7,15 +7,17 @@ import akka.actor.ActorSystem
 import akka.management.cluster.bootstrap.ClusterBootstrap
 import akka.management.scaladsl.AkkaManagement
 import com.typesafe.config.ConfigFactory
+import kamon.Kamon
 
 object ClusterRunner {
+  Kamon.init()
+
   implicit val config = ConfigFactory.load()
   implicit val system = ActorSystem("akkavis")
   implicit val executionContext = system.dispatcher
   val treeActor = system.actorOf(TreeModelActor.props(startHttp = true, config.getString("akkavis.hostname"), config.getInt("akkavis.port")), "tree-actor")
 
   def main(args: Array[String]): Unit = {
-
     // Akka Management hosts the HTTP routes used by bootstrap
     AkkaManagement(system).start()
 

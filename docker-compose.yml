@@ -6,6 +6,7 @@ services:
     image: kinzal/akkavis
     ports:
       - "8080:8080"
+      - "9095:9095"
     networks:
       default:
         ipv4_address: 192.168.96.2

@@ -43,7 +43,15 @@ lazy val root = (project in file("."))
 
       "org.scalatest" %% "scalatest" % "3.0.7" % Test,
       "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
-      "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % Test
+      "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % Test,
+
+      "io.kamon" %% "kamon-bundle" % "2.0.0",
+      "io.kamon" %% "kamon-akka" % "2.1.0",
+      "io.kamon" %% "kamon-akka-http" % "2.1.0",
+      "io.kamon" %% "kamon-prometheus" % "2.1.0",
+      "io.kamon" %% "kamon-zipkin" % "1.0.0",
+      "io.kamon" %% "kamon-logback" % "2.1.0",
+      "io.kamon" %% "kamon-system-metrics" % "2.1.0"
     )
   )
 
